@@ -13,6 +13,7 @@ LOG_FILE="$CODEX_HOME/install.log"
 SCRIPT_DIR="$(cd "$(dirname "${BASH_SOURCE[0]}")" && pwd)"
 SELECTED_CONFIG=""
 CONFIG_VERSION=""
+INSTALL_MODE=""
 
 RED='\033[0;31m'
 GREEN='\033[0;32m'
@@ -60,12 +61,13 @@ print_usage_info() {
   echo ""
   echo "  1. 检查配置包文件"
   echo "  2. 备份现有 ~/.codex/config.toml、rules/、AGENTS 模板"
-  echo "  3. 让你选择 simple/full 配置"
-  echo "  4. 安装 config.toml、rules/default.rules、AGENTS.template.md"
+  echo "  3. 让你选择安装模式：rules-only / simple / full"
+  echo "  4. 安装 rules/default.rules、AGENTS.template.md，并按需安装 config.toml"
   echo "  5. 记录安装日志到 ~/.codex/install.log"
   echo ""
   echo -e "${YELLOW}不会备份或覆盖:${NC} auth.json、history、sessions、sqlite 日志、skills"
-  echo -e "${YELLOW}会覆盖:${NC} config.toml、rules/default.rules、AGENTS.template.md"
+  echo -e "${YELLOW}默认不会覆盖:${NC} config.toml（选择 simple/full 才覆盖）"
+  echo -e "${YELLOW}会覆盖:${NC} rules/default.rules、AGENTS.template.md"
   echo ""
   read -r -p "按 Enter 继续，或按 Ctrl+C 取消安装..." _
 }
@@ -131,47 +133,67 @@ backup_existing_config() {
 select_config_version() {
   echo ""
   echo "======================================================================"
-  echo -e "${CYAN}请选择配置版本:${NC}"
+  echo -e "${CYAN}请选择安装模式:${NC}"
   echo "======================================================================"
   echo ""
-  echo "  1) simple - 推荐默认"
-  echo "     - workspace-write + on-request"
-  echo "     - 搭配基础 execpolicy rules，减少常见确认"
+  echo "  1) rules-only - 推荐默认"
+  echo "     - 保留现有 ~/.codex/config.toml"
+  echo "     - 只安装 execpolicy rules 和 AGENTS.template.md"
   echo ""
-  echo "  2) full - 进阶模板"
+  echo "  2) simple - 覆盖 config.toml"
+  echo "     - workspace-write + on-request"
+  echo "     - 适合没有自定义 provider 的新用户"
+  echo ""
+  echo "  3) full - 覆盖 config.toml"
   echo "     - 包含 safe-review/dev/ci profiles"
   echo "     - 包含 MCP 和 model provider 占位示例"
   echo ""
-  echo "  3) 取消安装"
+  echo "  4) 取消安装"
   echo ""
 
   while true; do
-    read -r -p "请输入选择 [1/2/3]: " choice
+    read -r -p "请输入选择 [1/2/3/4]: " choice
     case "$choice" in
       1)
+        INSTALL_MODE="rules-only"
+        CONFIG_VERSION="preserve-existing"
+        break
+        ;;
+      2)
+        INSTALL_MODE="config"
         SELECTED_CONFIG="config.simple.toml"
         CONFIG_VERSION="simple"
         break
         ;;
-      2)
+      3)
+        INSTALL_MODE="config"
         SELECTED_CONFIG="config.full.toml"
         CONFIG_VERSION="full"
         break
         ;;
-      3)
+      4)
         info "安装已取消"
         exit 0
         ;;
       *)
-        echo -e "${RED}无效选择，请输入 1、2 或 3${NC}"
+        echo -e "${RED}无效选择，请输入 1、2、3 或 4${NC}"
         ;;
     esac
   done
 
-  info "已选择: $CONFIG_VERSION ($SELECTED_CONFIG)"
+  if [[ "$INSTALL_MODE" == "rules-only" ]]; then
+    info "已选择: rules-only（保留现有 config.toml）"
+  else
+    info "已选择: $CONFIG_VERSION ($SELECTED_CONFIG)"
+  fi
 }
 
 install_config() {
+  if [[ "$INSTALL_MODE" == "rules-only" ]]; then
+    info "保留现有 config.toml，跳过配置覆盖"
+    return
+  fi
+
   info "安装 config.toml ($CONFIG_VERSION)..."
   cp "$SCRIPT_DIR/$SELECTED_CONFIG" "$CODEX_HOME/config.toml"
   chmod 600 "$CODEX_HOME/config.toml"
@@ -200,11 +222,16 @@ show_summary() {
   echo "======================================================================"
   echo ""
   echo -e "${CYAN}安装信息:${NC}"
+  echo "  安装模式: $INSTALL_MODE"
   echo "  配置版本: $CONFIG_VERSION"
   echo "  安装目录: $CODEX_HOME"
   echo ""
   echo -e "${CYAN}已安装:${NC}"
-  echo "  ✓ config.toml"
+  if [[ "$INSTALL_MODE" == "config" ]]; then
+    echo "  ✓ config.toml"
+  else
+    echo "  - config.toml 保持不变"
+  fi
   echo "  ✓ rules/default.rules"
   echo "  ✓ AGENTS.template.md"
   echo ""

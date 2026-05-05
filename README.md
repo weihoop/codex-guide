@@ -62,7 +62,7 @@ cd codex-config
 bash install.sh
 ```
 
-安装脚本会先备份 `~/.codex/config.toml`、`~/.codex/rules/` 和 AGENTS 模板，再交互选择 simple/full 配置。默认策略允许常见本地命令，`rm`、`git push`、依赖安装等敏感操作会询问，系统级危险命令会阻止。
+安装脚本会先备份 `~/.codex/config.toml`、`~/.codex/rules/` 和 AGENTS 模板；默认选择 `rules-only`，保留现有 `config.toml`，只更新权限规则和 AGENTS 模板。默认策略允许常见本地命令，`rm`、`git push`、依赖安装等敏感操作会询问，系统级危险命令会阻止。
 
 ## 文档入口
 

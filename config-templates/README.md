@@ -17,7 +17,7 @@ codex-config/
 
 | 文件 | 说明 |
 | --- | --- |
-| `install.sh` | 交互式安装脚本，自动备份后覆盖配置 |
+| `install.sh` | 交互式安装脚本，自动备份；默认保留 config，只更新 rules |
 | `config.simple.toml` | 推荐默认配置，`workspace-write` + `on-request` |
 | `config.full.toml` | 进阶配置，含 profiles、MCP、provider 占位示例 |
 | `rules/default.rules` | Codex execpolicy 权限规则 |
@@ -66,12 +66,20 @@ python3 scripts/check_execpolicy.py
 
 ## 手动安装
 
+保留现有 `config.toml`，只安装规则和模板：
+
 ```bash
 mkdir -p ~/.codex/rules
-cp config.simple.toml ~/.codex/config.toml
 cp rules/default.rules ~/.codex/rules/default.rules
 cp AGENTS.template.md ~/.codex/AGENTS.template.md
-chmod 600 ~/.codex/config.toml ~/.codex/rules/default.rules ~/.codex/AGENTS.template.md
+chmod 600 ~/.codex/rules/default.rules ~/.codex/AGENTS.template.md
+```
+
+如果是新用户，也可以手动安装 simple 配置：
+
+```bash
+cp config.simple.toml ~/.codex/config.toml
+chmod 600 ~/.codex/config.toml
 ```
 
 ## 恢复
