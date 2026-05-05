@@ -1,0 +1,31 @@
+# Full example for ~/.codex/config.toml.
+# Do not commit your real provider, tokens, project paths, or private endpoints.
+
+model = "gpt-5.4"
+model_reasoning_effort = "medium"
+sandbox_mode = "workspace-write"
+approval_policy = "on-request"
+
+[profiles.safe-review]
+sandbox_mode = "read-only"
+approval_policy = "on-request"
+
+[profiles.dev]
+sandbox_mode = "workspace-write"
+approval_policy = "on-request"
+
+[profiles.ci]
+sandbox_mode = "workspace-write"
+approval_policy = "never"
+
+# Example only. Prefer environment variables for secrets.
+[model_providers.example]
+name = "example"
+base_url = "https://api.example.com/openai"
+wire_api = "responses"
+requires_openai_auth = true
+
+# Example MCP. Replace with your own command and least-privilege args.
+[mcp_servers.docs]
+command = "npx"
+args = ["-y", "@modelcontextprotocol/server-filesystem", "./docs"]

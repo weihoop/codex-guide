@@ -1,0 +1,17 @@
+# Conservative starter config for Codex CLI.
+# Copy to ~/.codex/config.toml and adjust locally.
+
+model = "gpt-5.4"
+model_reasoning_effort = "medium"
+
+# Prefer safe interactive defaults.
+sandbox_mode = "workspace-write"
+approval_policy = "on-request"
+
+[profiles.safe-review]
+sandbox_mode = "read-only"
+approval_policy = "on-request"
+
+[profiles.dev]
+sandbox_mode = "workspace-write"
+approval_policy = "on-request"

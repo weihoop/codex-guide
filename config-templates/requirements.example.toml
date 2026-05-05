@@ -1,0 +1,11 @@
+# Optional team policy document. This is not a Codex config file by itself.
+
+[verification]
+required = ["test", "lint"]
+
+[safety]
+forbid = ["git reset --hard", "secret output", "production writes without approval"]
+
+[docs]
+language = "zh-CN"
+update_index = true

@@ -1,0 +1,30 @@
+# macOS
+.DS_Store
+
+# Editor
+.vscode/
+.idea/
+*.swp
+
+# Local environment and secrets
+.env
+.env.*
+!.env.example
+*.local
+*.key
+*.pem
+
+# Codex local state - never commit personal runtime data
+.codex/
+auth.json
+history.jsonl
+sessions/
+logs_*.sqlite*
+state_*.sqlite*
+
+# Build/output
+node_modules/
+dist/
+build/
+.cache/
+.tmp/
