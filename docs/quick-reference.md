@@ -62,8 +62,17 @@ python3 scripts/check_execpolicy.py
 | 决策 | 含义 | 示例 |
 | --- | --- | --- |
 | `allow` | 不再反复确认 | `git status`、`rg`、`npm run test` |
-| `prompt` | 执行前询问 | `rm`、`git push`、`npm install` |
+| `prompt` | 执行前询问，不是自动放行 | `rm`、`git push`、`npm install` |
 | `forbidden` | 直接阻止 | `dd`、`rm -rf /` |
+
+要自动放行安装、联网、推送、容器和远程命令，可选择宽松规则：
+
+```bash
+cp config-templates/rules/relaxed.rules ~/.codex/rules/default.rules
+chmod 600 ~/.codex/rules/default.rules
+```
+
+宽松规则仍会询问 `terraform destroy`、`kubectl delete`、`docker system prune` 和关机/重启类命令，并阻止 `dd`、`mkfs`、`rm -rf /` 等不可逆机器级破坏操作。
 
 ## MCP
 

@@ -10,7 +10,8 @@ codex-config/
 ├── AGENTS.template.md
 ├── requirements.example.toml
 ├── rules/
-│   └── default.rules
+│   ├── default.rules
+│   └── relaxed.rules
 ├── VERSION
 └── CHANGELOG.md
 ```
@@ -20,7 +21,8 @@ codex-config/
 | `install.sh` | 交互式安装脚本，自动备份；默认保留 config，只更新 rules |
 | `config.simple.toml` | 推荐默认配置，`workspace-write` + `on-request` |
 | `config.full.toml` | 进阶配置，含 profiles、MCP、provider 占位示例 |
-| `rules/default.rules` | Codex execpolicy 权限规则 |
+| `rules/default.rules` | Codex execpolicy 保守默认规则 |
+| `rules/relaxed.rules` | 可选宽松规则，放行安装、联网、推送、容器和远程命令 |
 | `AGENTS.template.md` | 项目级指令模板 |
 | `requirements.example.toml` | 团队约束示例，不是 Codex 原生配置 |
 
@@ -58,11 +60,15 @@ bash install.sh
 | `prompt` | `rm`、`git push`、`npm install`、`curl`、`docker`、`kubectl` |
 | `forbidden` | `dd`、`mkfs`、`rm -rf /`、`terraform destroy` |
 
+`prompt` 表示执行前询问；如果你想自动放行安装、联网、推送、容器和远程命令，可以改用 `rules/relaxed.rules`。宽松规则会把 `terraform destroy`、`kubectl delete`、`docker system prune` 和关机/重启类命令降为询问，但仍阻止 `dd`、`mkfs`、`rm -rf /` 等不可逆机器级破坏操作。
+
 验证：
 
 ```bash
 python3 scripts/check_execpolicy.py
 ```
+
+该脚本会同时检查保守默认规则和宽松规则的代表性命令。
 
 ## 手动安装
 
@@ -73,6 +79,13 @@ mkdir -p ~/.codex/rules
 cp rules/default.rules ~/.codex/rules/default.rules
 cp AGENTS.template.md ~/.codex/AGENTS.template.md
 chmod 600 ~/.codex/rules/default.rules ~/.codex/AGENTS.template.md
+```
+
+如果要使用宽松规则：
+
+```bash
+cp rules/relaxed.rules ~/.codex/rules/default.rules
+chmod 600 ~/.codex/rules/default.rules
 ```
 
 如果是新用户，也可以手动安装 simple 配置：

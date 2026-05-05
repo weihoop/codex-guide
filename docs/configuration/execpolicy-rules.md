@@ -7,7 +7,7 @@ Codex CLI 除了 `sandbox_mode` 和 `approval_policy`，还可以用 execpolicy 
 | decision | 含义 | 适合命令 |
 | --- | --- | --- |
 | `allow` | 允许执行，不再反复确认 | 只读查询、本地测试、lint、build |
-| `prompt` | 执行前询问用户 | 删除、移动、安装依赖、推送、远程访问 |
+| `prompt` | 执行前询问用户，不是自动放行 | 删除、移动、安装依赖、推送、远程访问 |
 | `forbidden` | 直接阻止 | 系统级破坏、磁盘格式化、不可逆删除 |
 
 > 注意：本机 `codex execpolicy check` 验证到有效值是 `allow`、`prompt`、`forbidden`，不是其他工具常见的 `deny`。
@@ -30,6 +30,15 @@ prefix_rule(pattern=["dd"], decision="forbidden")
 
 这样可以减少“总让我 yes 确认”的打扰，同时保留关键风险点的人类确认。
 
+如果你明确希望减少确认，可以把对应命令改成 `allow`，或直接使用本仓库提供的宽松规则：
+
+```bash
+cp config-templates/rules/relaxed.rules ~/.codex/rules/default.rules
+chmod 600 ~/.codex/rules/default.rules
+```
+
+`relaxed.rules` 会放行 `git push`、依赖安装、`curl`、`wget`、`docker`、`kubectl`、`terraform`、`ssh` 等命令；`terraform destroy`、`kubectl delete`、`docker system prune` 和关机/重启类命令会降为询问；`dd`、`mkfs`、`rm -rf /` 等不可逆机器级破坏操作仍会阻止。
+
 ## 验证规则
 
 ```bash
@@ -43,6 +52,8 @@ codex execpolicy check --rules config-templates/rules/default.rules --pretty dd 
 ```bash
 python3 scripts/check_execpolicy.py
 ```
+
+该脚本会同时验证 `default.rules` 和 `relaxed.rules`。
 
 ## 和 sandbox / approval 的关系
 
