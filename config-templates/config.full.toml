@@ -15,6 +15,7 @@ sandbox_mode = "workspace-write"
 approval_policy = "on-request"
 
 [profiles.ci]
+# Only use in an externally isolated runner with no production secrets.
 sandbox_mode = "workspace-write"
 approval_policy = "never"
 

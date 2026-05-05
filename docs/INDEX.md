@@ -15,6 +15,7 @@
 - [进阶使用手册](../advanced-guide.md)
 - [配置总览](configuration/configuration.md)
 - [权限与沙箱](configuration/permissions-and-sandbox.md)
+- [Execpolicy 权限规则](configuration/execpolicy-rules.md)
 - [MCP 集成](configuration/mcp.md)
 - [Plugins](configuration/plugins.md)
 - [Skills 使用指南](../skills.md)
@@ -35,7 +36,7 @@
 | 第一次安装 | [安装与登录](getting-started/installation.md) |
 | 配置 `AGENTS.md` | [项目指令模板](../config-templates/AGENTS.template.md) |
 | 配置 `config.toml` | [配置总览](configuration/configuration.md) |
-| 控制权限 | [权限与沙箱](configuration/permissions-and-sandbox.md) |
+| 控制权限 | [权限与沙箱](configuration/permissions-and-sandbox.md)、[Execpolicy 权限规则](configuration/execpolicy-rules.md) |
 | 接 MCP | [MCP 集成](configuration/mcp.md) |
 | 使用技能 | [Skills 使用指南](../skills.md) |
 | 代码审查 | [代码审查工作流](workflows/code-review.md) |

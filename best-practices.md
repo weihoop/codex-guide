@@ -61,6 +61,16 @@
 | 生产运维 | 尽量只读 | `on-request` |
 | 危险实验 | 外部隔离后再考虑 `danger-full-access` | 视情况 |
 
+## Execpolicy 规则
+
+为了减少低风险命令的重复确认，可以把常见命令加入 `~/.codex/rules/default.rules`：
+
+- `allow`：只读搜索、Git 查询、本地 test/lint/build。
+- `prompt`：`rm`、`git push`、安装依赖、远程脚本和云/容器命令。
+- `forbidden`：磁盘写零、格式化、系统关机、`rm -rf /` 这类不可逆操作。
+
+不要把 `rm`、`curl | bash`、`docker`、`kubectl`、`terraform` 直接设为 `allow`。
+
 ## 代码审查
 
 当用户说“review”时，应优先找问题：

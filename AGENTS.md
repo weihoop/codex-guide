@@ -24,7 +24,7 @@ Before completing a documentation change, run at least:
 
 ```bash
 rg -n "<legacy-product-term-regex>" .
-rg -n "auth.json|OPENAI_API_KEY=sk-|history.jsonl|logs_.*sqlite|state_.*sqlite" .
+rg -n "auth.json|OPENAI_API_KEY=<redacted>|history.jsonl|logs_.*sqlite|state_.*sqlite" .
 python3 scripts/check_links.py
 ```
 

@@ -57,6 +57,20 @@ codex --dangerously-bypass-approvals-and-sandbox
 
 除非你已经在一次性容器或隔离环境中运行。
 
+## Execpolicy 安全规则
+
+Codex rules 使用 `allow`、`prompt`、`forbidden` 三类决策。推荐默认：
+
+- 常见只读命令和本地测试设为 `allow`，减少反复确认。
+- `rm`、`git push`、依赖安装、`curl`、`docker`、`kubectl`、`terraform` 设为 `prompt`。
+- `dd`、`mkfs`、`rm -rf /`、`terraform destroy`、`kubectl delete` 设为 `forbidden`。
+
+验证命令：
+
+```bash
+python3 scripts/check_execpolicy.py
+```
+
 ## Approval policy
 
 - `on-request`：交互使用推荐，重要操作前让 agent 请求批准。

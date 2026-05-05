@@ -51,6 +51,20 @@ codex -p dev
 
 `-c` 的值按 TOML 解析；字符串通常需要额外引号。
 
+## Execpolicy
+
+```bash
+codex execpolicy check --rules config-templates/rules/default.rules --pretty git status
+codex execpolicy check --rules config-templates/rules/default.rules --pretty rm file.txt
+python3 scripts/check_execpolicy.py
+```
+
+| 决策 | 含义 | 示例 |
+| --- | --- | --- |
+| `allow` | 不再反复确认 | `git status`、`rg`、`npm run test` |
+| `prompt` | 执行前询问 | `rm`、`git push`、`npm install` |
+| `forbidden` | 直接阻止 | `dd`、`rm -rf /` |
+
 ## MCP
 
 ```bash

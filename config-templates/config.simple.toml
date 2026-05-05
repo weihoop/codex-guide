@@ -4,7 +4,8 @@
 model = "gpt-5.4"
 model_reasoning_effort = "medium"
 
-# Prefer safe interactive defaults.
+# Safe interactive defaults. Execpolicy rules reduce repeated prompts for
+# common local commands while still prompting/blocking risky operations.
 sandbox_mode = "workspace-write"
 approval_policy = "on-request"
 

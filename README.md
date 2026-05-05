@@ -47,6 +47,23 @@ codex --help
 
 本仓库内容按 `codex-cli 0.128.0` 的命令帮助和 OpenAI 官方文档整理；如果命令或配置发生变化，请优先以官方文档和本机 `codex --help` 为准。
 
+
+### 一键安装 Codex 配置包
+
+Release 会提供 `codex-config.tar.gz`，包含 `config.toml` 模板、execpolicy rules 和 `AGENTS.template.md`。
+
+```bash
+# 下载最新 Release 资产
+wget https://github.com/weihoop/codex-guide/releases/latest/download/codex-config.tar.gz
+
+# 解压并安装
+tar -xzf codex-config.tar.gz
+cd codex-config
+bash install.sh
+```
+
+安装脚本会先备份 `~/.codex/config.toml`、`~/.codex/rules/` 和 AGENTS 模板，再交互选择 simple/full 配置。默认策略允许常见本地命令，`rm`、`git push`、依赖安装等敏感操作会询问，系统级危险命令会阻止。
+
 ## 文档入口
 
 | 文档 | 说明 | 适合人群 |
@@ -65,7 +82,7 @@ codex --help
 1. 阅读 [安装与登录](docs/getting-started/installation.md)，完成 Codex CLI 安装。
 2. 复制 [AGENTS 模板](config-templates/AGENTS.template.md) 到项目根目录并改写项目约定。
 3. 使用 [简单配置模板](config-templates/config.simple.toml) 初始化 `~/.codex/config.toml`。
-4. 阅读 [权限与沙箱](docs/configuration/permissions-and-sandbox.md)，理解 `read-only`、`workspace-write`、`danger-full-access` 和 approval policy。
+4. 阅读 [权限与沙箱](docs/configuration/permissions-and-sandbox.md) 和 [Execpolicy 权限规则](docs/configuration/execpolicy-rules.md)，理解 sandbox、approval 与 allow/prompt/forbidden 的配合。
 5. 按 [快速参考卡](docs/quick-reference.md) 跑一次 `codex review`、`codex exec`、`codex apply` 的闭环。
 
 ## 仓库结构
