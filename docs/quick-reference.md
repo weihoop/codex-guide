@@ -39,7 +39,42 @@ codex --ask-for-approval never
 | --- | --- |
 | 只读审查 | `codex --sandbox read-only` |
 | 日常开发 | `codex --sandbox workspace-write --ask-for-approval on-request` |
+| 相对安全的自动模式 | `codex --sandbox workspace-write --ask-for-approval never` |
 | CI | `codex exec --ask-for-approval never` |
+
+## 自动模式
+
+日常项目中优先使用受沙箱保护的自动模式：
+
+```bash
+codex --sandbox workspace-write --ask-for-approval never
+```
+
+非交互任务可写成：
+
+```bash
+codex exec --sandbox workspace-write --ask-for-approval never "帮我更新 README"
+```
+
+也可以保存为 profile：
+
+```toml
+[profiles.auto]
+sandbox_mode = "workspace-write"
+approval_policy = "never"
+```
+
+启动时指定：
+
+```bash
+codex --profile auto
+```
+
+只有在 Docker、临时 VM 等外部隔离环境中，才考虑：
+
+```bash
+codex --dangerously-bypass-approvals-and-sandbox
+```
 
 ## 配置覆盖
 

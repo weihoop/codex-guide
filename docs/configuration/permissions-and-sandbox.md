@@ -30,6 +30,38 @@ codex --sandbox workspace-write --ask-for-approval on-request
 codex exec --ask-for-approval never
 ```
 
+## 自动模式
+
+如果希望 Codex 尽量自动执行命令，不反复请求人工确认，推荐先保留工作区沙箱：
+
+```bash
+codex --sandbox workspace-write --ask-for-approval never
+```
+
+这个组合允许 Codex 写当前工作区，但不会绕过文件系统沙箱。适合本地日常开发中相对可控的自动化。
+
+非交互执行可使用：
+
+```bash
+codex exec --sandbox workspace-write --ask-for-approval never "根据当前改动更新文档"
+```
+
+也可以在 `~/.codex/config.toml` 中保存一个 profile：
+
+```toml
+[profiles.auto]
+sandbox_mode = "workspace-write"
+approval_policy = "never"
+```
+
+然后用：
+
+```bash
+codex --profile auto
+```
+
+`--dangerously-bypass-approvals-and-sandbox` 会同时跳过确认和沙箱，风险很高。只有在 Docker、临时 VM、一次性工作区等外部已隔离环境中才考虑使用。
+
 ## 高风险命令
 
 遇到以下行为应要求人工确认：
