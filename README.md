@@ -53,16 +53,33 @@ codex --help
 Release 会提供 `codex-config.tar.gz`，包含 `config.toml` 模板、execpolicy rules 和 `AGENTS.template.md`。
 
 ```bash
-# 下载最新 Release 资产
+# 安装最新 Release
 wget https://github.com/weihoop/codex-guide/releases/latest/download/codex-config.tar.gz
-
-# 解压并安装
 tar -xzf codex-config.tar.gz
 cd codex-config
 bash install.sh
 ```
 
+如果要固定版本，可以下载版本化资产：
+
+```bash
+wget https://github.com/weihoop/codex-guide/releases/download/v0.1.1/codex-config-v0.1.1.tar.gz
+tar -xzf codex-config-v0.1.1.tar.gz
+cd codex-config
+bash install.sh
+```
+
 安装脚本会先备份 `~/.codex/config.toml`、`~/.codex/rules/` 和 AGENTS 模板；默认选择 `rules-only`，保留现有 `config.toml`，只更新权限规则和 AGENTS 模板。默认策略允许常见本地命令，`rm`、`git push`、依赖安装等敏感操作会询问，系统级危险命令会阻止。
+
+配置包内容：
+
+- `config.simple.toml` / `config.full.toml`：精简版和完整版配置模板。
+- `rules/default.rules` / `rules/relaxed.rules`：保守和宽松两套 execpolicy 权限规则。
+- `AGENTS.template.md`：项目级代理指令模板。
+- `requirements.example.toml`：团队约束示例。
+- `install.sh`：交互式安装脚本，支持备份、覆盖提醒和安装模式选择。
+
+支持平台：macOS、Linux。
 
 ## 文档入口
 
