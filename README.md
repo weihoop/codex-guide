@@ -96,6 +96,7 @@ bash install.sh
 | [模型与推理强度选择](docs/model-selection.md) | low/medium、5.4/5.5 与高影响操作推荐配置 | 运维、部署、云资源和编码用户 |
 | [推荐 Skills 与工作流](docs/skills/recommended-skills.md) | 按场景选择 Skills、MCP 和团队工作流 | 进阶用户、团队 |
 | [Codex 高效使用 10 条](docs/workflows/codex-productivity-tips.md) | prompt、goal、plan、截图、测试闭环和安全模式 | 日常使用 |
+| [本机 Codex 配置审计](docs/local-codex-audit.md) | AGENTS、config、rules、Skills 与补装建议的脱敏审计 | 个人环境维护 |
 | [迁移对照](docs/codex-vs-claude-code.md) | Codex 与另一类 coding agent 工具的差异对照 | 迁移用户 |
 
 ## 推荐学习路径
