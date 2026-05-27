@@ -42,8 +42,8 @@ bash install.sh
 安装指定版本：
 
 ```bash
-wget https://github.com/weihoop/codex-guide/releases/download/v0.1.1/codex-config-v0.1.1.tar.gz
-tar -xzf codex-config-v0.1.1.tar.gz
+wget https://github.com/weihoop/codex-guide/releases/download/v0.1.3/codex-config-v0.1.3.tar.gz
+tar -xzf codex-config-v0.1.3.tar.gz
 cd codex-config
 bash install.sh
 ```

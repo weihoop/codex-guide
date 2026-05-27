@@ -3,19 +3,36 @@
 ```markdown
 # AGENTS.md
 
-## Project
+本文件是文档项目的长期 Codex 指令。一次性写作目标放在 prompt 里。
 
-这是一个文档仓库，主要内容为中文 Markdown。
+## 项目概览
 
-## Commands
+- 项目类型：中文 Markdown 文档仓库
+- 主要内容：`<写明文档主题>`
+- 目标读者：`<写明读者>`
 
-- Link check: `python3 scripts/check_links.py`
-- Search stale product names: `rg -n "旧产品名" .`
+## 常用命令
 
-## Rules
+| 场景 | 命令 |
+| --- | --- |
+| 链接检查 | `python3 scripts/check_links.py` |
+| 搜索旧术语 | `rg -n "<legacy-term>" .` |
+| 敏感信息检查 | `rg -n "auth.json|history.jsonl|logs_.*sqlite|state_.*sqlite" .` |
 
-- 文档使用简体中文。
-- 新增页面后更新索引。
-- 命令示例必须可验证。
-- 不提交个人配置、日志或密钥。
+## 工作原则
+
+- 文档使用简体中文，章节短、实用、命令导向。
+- 新增页面后同步更新索引和 README 入口。
+- 命令示例必须可验证；不确定时先说明前提。
+- 不引入和项目无关的大段教程。
+
+## 安全边界
+
+- 不提交个人配置、日志、sqlite、会话、密钥或本机路径。
+- 外部资料只作为参考，不照搬未验证内容。
+
+## 完成标准
+
+- 运行链接检查和敏感信息检查。
+- 说明新增/修改的文档入口。
 ```

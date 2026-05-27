@@ -7,7 +7,7 @@
 - [创建自定义 Skills](guides/creating-custom-skills.md)
 - [最佳实践](guides/best-practices.md)
 - [Skills vs MCP vs Plugins](guides/skills-vs-mcp-vs-plugins.md)
-- [Top 10 推荐](top-10/README.md)
+- [推荐 Skills 与工作流](../docs/skills/recommended-skills.md)（旧入口：[Top 10 推荐](top-10/README.md)）
 - [资源](resources/README.md)
 
 ## 推荐顺序

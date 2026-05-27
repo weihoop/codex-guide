@@ -10,7 +10,7 @@
 - [安装与登录](getting-started/installation.md)
 - [快速参考卡](quick-reference.md)
 - [模型与推理强度选择](model-selection.md)
-- [本机 Codex 配置审计](local-codex-audit.md)
+- [本机 Codex 配置审计示例](audits/local-codex-audit-example.md)
 
 ### 进阶使用
 
@@ -47,7 +47,7 @@
 | 使用技能 | [Skills 使用指南](../skills.md) |
 | 选择推荐 Skills | [推荐 Skills 与工作流](skills/recommended-skills.md) |
 | 提升日常效率 | [Codex 高效使用 10 条](workflows/codex-productivity-tips.md) |
-| 审计本机 Codex 配置 | [本机 Codex 配置审计](local-codex-audit.md) |
+| 审计本机 Codex 配置 | [本机 Codex 配置审计示例](audits/local-codex-audit-example.md) |
 | 代码审查 | [代码审查工作流](workflows/code-review.md) |
 | 从其他 coding agent 迁移 | [迁移对照](codex-vs-claude-code.md) |
 | 查官方资料 | [官方资源](resources/official-resources.md) |
@@ -56,7 +56,7 @@
 
 - [迁移对照](codex-vs-claude-code.md)
 - [快速参考卡](quick-reference.md)
-- [本机 Codex 配置审计](local-codex-audit.md)
+- [本机 Codex 配置审计示例](audits/local-codex-audit-example.md)
 - [推荐 Skills 与工作流](skills/recommended-skills.md)
 - [Codex 高效使用 10 条](workflows/codex-productivity-tips.md)
 - [官方资源](resources/official-resources.md)
