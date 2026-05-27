@@ -7,6 +7,7 @@ codex-config/
 ├── install.sh
 ├── config.simple.toml
 ├── config.full.toml
+├── AGENTS.global.md
 ├── AGENTS.template.md
 ├── requirements.example.toml
 ├── rules/
@@ -23,7 +24,8 @@ codex-config/
 | `config.full.toml` | 进阶配置，含 profiles、MCP、provider 占位示例 |
 | `rules/default.rules` | Codex execpolicy 保守默认规则 |
 | `rules/relaxed.rules` | 可选宽松规则，放行安装、联网、推送、容器和远程命令 |
-| `AGENTS.template.md` | 项目级指令模板 |
+| `AGENTS.global.md` | 全局指令参考模板，可初始化为 `~/.codex/AGENTS.md` |
+| `AGENTS.template.md` | 项目级指令模板，复制到仓库根目录后按项目改写 |
 | `requirements.example.toml` | 团队约束示例，不是 Codex 原生配置 |
 
 ## 快速安装
@@ -52,6 +54,7 @@ bash install.sh
 
 - 交互式安装到 `~/.codex/`，支持 `CODEX_HOME` 自定义安装目录。
 - 默认使用 `rules-only` 模式，保留现有 `config.toml`，只更新权限规则和 AGENTS 模板。
+- 如果 `~/.codex/AGENTS.md` 不存在，安装脚本会用 `AGENTS.global.md` 初始化全局指令；如果已存在则保留不覆盖。
 - 可选 `simple` / `full` 模式覆盖安装 `config.toml`。
 - 安装过程会显示覆盖警告，并记录日志到 `~/.codex/install.log`。
 
@@ -59,12 +62,12 @@ bash install.sh
 
 - 提供精简版和完整版 `config.toml` 模板。
 - 提供保守和宽松两套 execpolicy 权限规则。
-- 提供项目级 `AGENTS.template.md` 模板。
+- 提供全局 `AGENTS.global.md` 和项目级 `AGENTS.template.md` 模板。
 - 提供团队约束示例 `requirements.example.toml`。
 
 ### 安全保护
 
-- 自动备份已有 `config.toml`、`rules/`、`AGENTS.md` 和 `AGENTS.template.md`。
+- 自动备份已有 `config.toml`、`rules/`、`AGENTS.md`、`AGENTS.global.md` 和 `AGENTS.template.md`。
 - 不备份、不覆盖登录凭据、历史记录、会话、sqlite 日志和 skills。
 - 默认规则允许常见本地只读/测试命令，对删除、推送、安装、联网和部署类命令保留确认。
 
@@ -74,6 +77,7 @@ bash install.sh
 - `config.full.toml`：完整配置，含 profiles、MCP、provider 占位示例。
 - `rules/default.rules`：保守默认权限规则。
 - `rules/relaxed.rules`：宽松权限规则。
+- `AGENTS.global.md`：全局指令模板。
 - `AGENTS.template.md`：项目指令模板。
 - `install.sh`：自动安装脚本。
 - `PROJECT-README.md`、`CHANGELOG.md`、`VERSION`：文档和版本信息。
@@ -122,8 +126,10 @@ python3 scripts/check_execpolicy.py
 ```bash
 mkdir -p ~/.codex/rules
 cp rules/default.rules ~/.codex/rules/default.rules
+cp AGENTS.global.md ~/.codex/AGENTS.global.md
 cp AGENTS.template.md ~/.codex/AGENTS.template.md
-chmod 600 ~/.codex/rules/default.rules ~/.codex/AGENTS.template.md
+test -f ~/.codex/AGENTS.md || cp AGENTS.global.md ~/.codex/AGENTS.md
+chmod 600 ~/.codex/rules/default.rules ~/.codex/AGENTS.global.md ~/.codex/AGENTS.template.md ~/.codex/AGENTS.md
 ```
 
 如果要使用宽松规则：

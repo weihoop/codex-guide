@@ -3,7 +3,7 @@ set -euo pipefail
 
 # ==============================================================================
 # Codex configuration installer
-# Installs config.toml, execpolicy rules, and AGENTS template into ~/.codex.
+# Installs config.toml, execpolicy rules, and AGENTS templates into ~/.codex.
 # ==============================================================================
 
 CODEX_HOME="${CODEX_HOME:-$HOME/.codex}"
@@ -60,14 +60,15 @@ print_usage_info() {
   echo -e "${CYAN}本脚本将执行以下操作:${NC}"
   echo ""
   echo "  1. 检查配置包文件"
-  echo "  2. 备份现有 ~/.codex/config.toml、rules/、AGENTS 模板"
+  echo "  2. 备份现有 ~/.codex/config.toml、rules/、AGENTS 指令和模板"
   echo "  3. 让你选择安装模式：rules-only / simple / full"
-  echo "  4. 安装 rules/default.rules、AGENTS.template.md，并按需安装 config.toml"
+  echo "  4. 安装 rules/default.rules、AGENTS 模板，并按需安装 config.toml"
   echo "  5. 记录安装日志到 ~/.codex/install.log"
   echo ""
   echo -e "${YELLOW}不会备份或覆盖:${NC} auth.json、history、sessions、sqlite 日志、skills"
   echo -e "${YELLOW}默认不会覆盖:${NC} config.toml（选择 simple/full 才覆盖）"
-  echo -e "${YELLOW}会覆盖:${NC} rules/default.rules、AGENTS.template.md"
+  echo -e "${YELLOW}会覆盖:${NC} rules/default.rules、AGENTS.template.md、AGENTS.global.md"
+  echo -e "${YELLOW}不会覆盖已有:${NC} AGENTS.md（不存在时才初始化全局指令）"
   echo ""
   read -r -p "按 Enter 继续，或按 Ctrl+C 取消安装..." _
 }
@@ -81,6 +82,7 @@ check_environment() {
   [[ -f "$SCRIPT_DIR/config.full.toml" ]] || missing+=("config.full.toml")
   [[ -f "$SCRIPT_DIR/rules/default.rules" ]] || missing+=("rules/default.rules")
   [[ -f "$SCRIPT_DIR/AGENTS.template.md" ]] || missing+=("AGENTS.template.md")
+  [[ -f "$SCRIPT_DIR/AGENTS.global.md" ]] || missing+=("AGENTS.global.md")
 
   if [[ ${#missing[@]} -gt 0 ]]; then
     error "缺少必需文件: ${missing[*]}"
@@ -97,7 +99,7 @@ check_environment() {
 
 backup_existing_config() {
   info "检查现有 Codex 配置..."
-  local items=("config.toml" "rules" "AGENTS.md" "AGENTS.template.md")
+  local items=("config.toml" "rules" "AGENTS.md" "AGENTS.template.md" "AGENTS.global.md")
   local backup_list=()
 
   for item in "${items[@]}"; do
@@ -138,7 +140,7 @@ select_config_version() {
   echo ""
   echo "  1) rules-only - 推荐默认"
   echo "     - 保留现有 ~/.codex/config.toml"
-  echo "     - 只安装 execpolicy rules 和 AGENTS.template.md"
+  echo "     - 只安装 execpolicy rules 和 AGENTS 模板"
   echo ""
   echo "  2) simple - 覆盖 config.toml"
   echo "     - workspace-write + on-request"
@@ -211,8 +213,19 @@ install_rules() {
 install_agents_template() {
   info "安装 AGENTS 模板..."
   cp "$SCRIPT_DIR/AGENTS.template.md" "$CODEX_HOME/AGENTS.template.md"
+  cp "$SCRIPT_DIR/AGENTS.global.md" "$CODEX_HOME/AGENTS.global.md"
   chmod 600 "$CODEX_HOME/AGENTS.template.md"
-  success "AGENTS.template.md 安装完成"
+  chmod 600 "$CODEX_HOME/AGENTS.global.md"
+
+  if [[ -f "$CODEX_HOME/AGENTS.md" ]]; then
+    warning "检测到已有 ~/.codex/AGENTS.md，已保留不覆盖；可参考 ~/.codex/AGENTS.global.md 手动合并"
+  else
+    cp "$SCRIPT_DIR/AGENTS.global.md" "$CODEX_HOME/AGENTS.md"
+    chmod 600 "$CODEX_HOME/AGENTS.md"
+    success "AGENTS.md 全局指令初始化完成"
+  fi
+
+  success "AGENTS.template.md 和 AGENTS.global.md 安装完成"
 }
 
 show_summary() {
@@ -234,6 +247,10 @@ show_summary() {
   fi
   echo "  ✓ rules/default.rules"
   echo "  ✓ AGENTS.template.md"
+  echo "  ✓ AGENTS.global.md"
+  if [[ -f "$CODEX_HOME/AGENTS.md" ]]; then
+    echo "  ✓ AGENTS.md（已有则保留，缺失则初始化）"
+  fi
   echo ""
   if [[ -d "$BACKUP_DIR" ]]; then
     echo -e "${CYAN}备份信息:${NC}"
@@ -243,9 +260,10 @@ show_summary() {
   fi
   echo -e "${CYAN}下一步:${NC}"
   echo "  1. 重启 Codex 会话"
-  echo "  2. 在项目根目录复制模板: cp $CODEX_HOME/AGENTS.template.md ./AGENTS.md"
-  echo "  3. 按项目实际命令编辑 AGENTS.md"
-  echo "  4. 启动: codex --sandbox workspace-write --ask-for-approval on-request"
+  echo "  2. 全局指令位置: $CODEX_HOME/AGENTS.md"
+  echo "  3. 在项目根目录复制模板: cp $CODEX_HOME/AGENTS.template.md ./AGENTS.md"
+  echo "  4. 按项目实际命令编辑项目级 AGENTS.md"
+  echo "  5. 启动: codex --sandbox workspace-write --ask-for-approval on-request"
   echo ""
   echo "日志文件: $LOG_FILE"
   echo "======================================================================"

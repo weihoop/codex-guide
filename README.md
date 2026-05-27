@@ -50,7 +50,7 @@ codex --help
 
 ### 一键安装 Codex 配置包
 
-Release 会提供 `codex-config.tar.gz`，包含 `config.toml` 模板、execpolicy rules 和 `AGENTS.template.md`。
+Release 会提供 `codex-config.tar.gz`，包含 `config.toml` 模板、execpolicy rules、全局 `AGENTS.global.md` 和项目级 `AGENTS.template.md`。
 
 ```bash
 # 安装最新 Release
@@ -69,12 +69,13 @@ cd codex-config
 bash install.sh
 ```
 
-安装脚本会先备份 `~/.codex/config.toml`、`~/.codex/rules/` 和 AGENTS 模板；默认选择 `rules-only`，保留现有 `config.toml`，只更新权限规则和 AGENTS 模板。默认策略允许常见本地命令，`rm`、`git push`、依赖安装等敏感操作会询问，系统级危险命令会阻止。
+安装脚本会先备份 `~/.codex/config.toml`、`~/.codex/rules/` 和 AGENTS 指令/模板；默认选择 `rules-only`，保留现有 `config.toml`，只更新权限规则和 AGENTS 模板。如果 `~/.codex/AGENTS.md` 不存在，会用 `AGENTS.global.md` 初始化；如果已存在则保留不覆盖。默认策略允许常见本地命令，`rm`、`git push`、依赖安装等敏感操作会询问，系统级危险命令会阻止。
 
 配置包内容：
 
 - `config.simple.toml` / `config.full.toml`：精简版和完整版配置模板。
 - `rules/default.rules` / `rules/relaxed.rules`：保守和宽松两套 execpolicy 权限规则。
+- `AGENTS.global.md`：全局代理指令模板，可初始化为 `~/.codex/AGENTS.md`。
 - `AGENTS.template.md`：项目级代理指令模板。
 - `requirements.example.toml`：团队约束示例。
 - `install.sh`：交互式安装脚本，支持备份、覆盖提醒和安装模式选择。
@@ -92,12 +93,13 @@ bash install.sh
 | [Skills 使用指南](skills.md) | Codex Skills 的定位、安装、创建和治理 | 重度用户 |
 | [完整文档索引](docs/INDEX.md) | 按场景和难度查找文档 | 所有人 |
 | [快速参考卡](docs/quick-reference.md) | 命令、配置、文件和工作流速查 | 日常使用 |
+| [模型与推理强度选择](docs/model-selection.md) | low/medium、5.4/5.5 与高影响操作推荐配置 | 运维、部署、云资源和编码用户 |
 | [迁移对照](docs/codex-vs-claude-code.md) | Codex 与另一类 coding agent 工具的差异对照 | 迁移用户 |
 
 ## 推荐学习路径
 
 1. 阅读 [安装与登录](docs/getting-started/installation.md)，完成 Codex CLI 安装。
-2. 复制 [AGENTS 模板](config-templates/AGENTS.template.md) 到项目根目录并改写项目约定。
+2. 可参考 [全局 AGENTS 模板](config-templates/AGENTS.global.md) 初始化 `~/.codex/AGENTS.md`，再复制 [项目 AGENTS 模板](config-templates/AGENTS.template.md) 到项目根目录并改写项目约定。
 3. 使用 [简单配置模板](config-templates/config.simple.toml) 初始化 `~/.codex/config.toml`。
 4. 阅读 [权限与沙箱](docs/configuration/permissions-and-sandbox.md) 和 [Execpolicy 权限规则](docs/configuration/execpolicy-rules.md)，理解 sandbox、approval 与 allow/prompt/forbidden 的配合。
 5. 按 [快速参考卡](docs/quick-reference.md) 跑一次 `codex review`、`codex exec`、`codex apply` 的闭环。
