@@ -21,6 +21,7 @@ history.jsonl
 sessions/
 logs_*.sqlite*
 state_*.sqlite*
+goals_*.sqlite*
 
 # Build/output
 node_modules/

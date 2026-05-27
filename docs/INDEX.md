@@ -20,6 +20,8 @@
 - [MCP 集成](configuration/mcp.md)
 - [Plugins](configuration/plugins.md)
 - [Skills 使用指南](../skills.md)
+- [推荐 Skills 与工作流](skills/recommended-skills.md)
+- [Codex 高效使用 10 条](workflows/codex-productivity-tips.md)
 
 ### 团队实践
 
@@ -29,6 +31,7 @@
 - [代码审查工作流](workflows/code-review.md)
 - [SPEC 驱动开发](workflows/spec-driven-development.md)
 - [自动化与 CI](workflows/automation-ci.md)
+- [Codex 高效使用 10 条](workflows/codex-productivity-tips.md)
 
 ## 按场景分类
 
@@ -41,6 +44,8 @@
 | 选择模型和推理强度 | [模型与推理强度选择](model-selection.md) |
 | 接 MCP | [MCP 集成](configuration/mcp.md) |
 | 使用技能 | [Skills 使用指南](../skills.md) |
+| 选择推荐 Skills | [推荐 Skills 与工作流](skills/recommended-skills.md) |
+| 提升日常效率 | [Codex 高效使用 10 条](workflows/codex-productivity-tips.md) |
 | 代码审查 | [代码审查工作流](workflows/code-review.md) |
 | 从其他 coding agent 迁移 | [迁移对照](codex-vs-claude-code.md) |
 | 查官方资料 | [官方资源](resources/official-resources.md) |
@@ -49,6 +54,8 @@
 
 - [迁移对照](codex-vs-claude-code.md)
 - [快速参考卡](quick-reference.md)
+- [推荐 Skills 与工作流](skills/recommended-skills.md)
+- [Codex 高效使用 10 条](workflows/codex-productivity-tips.md)
 - [官方资源](resources/official-resources.md)
 - [真实案例](examples/real-world-cases.md)
 - [提示词示例](examples/prompt-recipes.md)
