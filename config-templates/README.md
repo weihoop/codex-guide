@@ -177,6 +177,7 @@ bash scripts/build-release.sh
 ## 发布到 GitHub Release
 
 ```bash
+bash scripts/build-release-notes.sh > dist/release-notes.md
 git tag v$(cat VERSION)
 git push origin main
 git push origin v$(cat VERSION)
@@ -184,5 +185,5 @@ gh release create v$(cat VERSION) \
   dist/codex-config.tar.gz \
   dist/codex-config-v$(cat VERSION).tar.gz \
   --title "Codex Guide v$(cat VERSION)" \
-  --notes-file CHANGELOG.md
+  --notes-file dist/release-notes.md
 ```
